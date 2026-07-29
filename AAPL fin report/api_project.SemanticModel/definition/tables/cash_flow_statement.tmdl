@@ -1,0 +1,443 @@
+table cash_flow_statement
+	lineageTag: a113aa49-0009-4fba-995c-05335d4a1492
+
+	measure CapExIntensity =
+			
+			DIVIDE(SUM(cash_flow_statement[capitalExpenditure]), SUM(income_statement[revenue]))
+		lineageTag: 18ce1b63-a001-4dea-9e45-39fd14b16667
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CapExIntensity_Target = ```
+			
+			VAR SelectedYear = SELECTEDVALUE(income_statement[fiscalYear])
+			VAR PrevYearCapEx = 
+			    CALCULATE(
+			        SUM(cash_flow_statement[capitalExpenditure]),
+			        FILTER(ALL(income_statement), income_statement[inc_statement_year] = SelectedYear - 1)
+			    )
+			VAR PrevYearRevenue = 
+			    CALCULATE(
+			        SUM(income_statement[revenue]),
+			        FILTER(ALL(income_statement), income_statement[inc_statement_year] = SelectedYear - 1)
+			    )
+			VAR PrevYearValue = DIVIDE(PrevYearCapEx, PrevYearRevenue)
+			RETURN
+			IF(
+			    ISBLANK(PrevYearValue) || PrevYearValue = 0,
+			    BLANK(),
+			    PrevYearValue
+			)
+			
+			```
+		formatString: 0
+		lineageTag: a357c7c1-d637-412a-bf0d-05c7cbd6d4f1
+
+	column date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: f1c2a0a3-29de-440e-8f0f-c3ec2055346d
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column symbol
+		dataType: string
+		lineageTag: 014799e7-8389-4ed0-9c01-41ac9662f0ef
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = Automatic
+
+	column reportedCurrency
+		dataType: string
+		lineageTag: f04c6708-a7ba-4d02-a933-28f13124b193
+		summarizeBy: none
+		sourceColumn: reportedCurrency
+
+		annotation SummarizationSetBy = Automatic
+
+	column cik
+		dataType: string
+		lineageTag: 0da15a17-697a-42c3-93cc-5171396dd1a2
+		summarizeBy: none
+		sourceColumn: cik
+
+		annotation SummarizationSetBy = Automatic
+
+	column filingDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c1701499-76e8-4df0-84ba-0dbf518afc71
+		summarizeBy: none
+		sourceColumn: filingDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column acceptedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a3055e52-5350-4d5e-94a0-c357d765a1fb
+		summarizeBy: none
+		sourceColumn: acceptedDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column fiscalYear
+		dataType: string
+		lineageTag: 25bd9ccb-47d4-4f23-a04e-508ad6418af7
+		summarizeBy: none
+		sourceColumn: fiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column period
+		dataType: string
+		lineageTag: a886a0d3-1b76-4ee0-a4ac-26101a64c82c
+		summarizeBy: none
+		sourceColumn: period
+
+		annotation SummarizationSetBy = Automatic
+
+	column netIncome
+		dataType: string
+		lineageTag: 13c35718-9b71-425c-98fa-a8e65d326145
+		summarizeBy: none
+		sourceColumn: netIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column depreciationAndAmortization
+		dataType: string
+		lineageTag: 06d720b9-9bc6-43d4-87db-8455a0c279de
+		summarizeBy: none
+		sourceColumn: depreciationAndAmortization
+
+		annotation SummarizationSetBy = Automatic
+
+	column deferredIncomeTax
+		dataType: string
+		lineageTag: 91506ba7-18db-40ee-b76a-c5cf40369975
+		summarizeBy: none
+		sourceColumn: deferredIncomeTax
+
+		annotation SummarizationSetBy = Automatic
+
+	column stockBasedCompensation
+		dataType: string
+		lineageTag: 3d5e1232-1e98-4782-924c-a03b992c0348
+		summarizeBy: none
+		sourceColumn: stockBasedCompensation
+
+		annotation SummarizationSetBy = Automatic
+
+	column changeInWorkingCapital
+		dataType: string
+		lineageTag: 3abd3e8f-3398-4e9b-866b-61b56d94cd9e
+		summarizeBy: none
+		sourceColumn: changeInWorkingCapital
+
+		annotation SummarizationSetBy = Automatic
+
+	column accountsReceivables
+		dataType: string
+		lineageTag: a28ca42d-74a9-483e-b4b0-75e8528240a3
+		summarizeBy: none
+		sourceColumn: accountsReceivables
+
+		annotation SummarizationSetBy = Automatic
+
+	column inventory
+		dataType: string
+		lineageTag: bee3cacd-5081-4162-8696-a1e330e30924
+		summarizeBy: none
+		sourceColumn: inventory
+
+		annotation SummarizationSetBy = Automatic
+
+	column accountsPayables
+		dataType: string
+		lineageTag: fbe4f546-bfce-464e-acc5-61a7a090b7fe
+		summarizeBy: none
+		sourceColumn: accountsPayables
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherWorkingCapital
+		dataType: string
+		lineageTag: 0d8dbc44-f616-4b26-a079-6fc92c7d94ad
+		summarizeBy: none
+		sourceColumn: otherWorkingCapital
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherNonCashItems
+		dataType: string
+		lineageTag: d71e7ea8-6f13-4020-bd04-3aa1ee76b0be
+		summarizeBy: none
+		sourceColumn: otherNonCashItems
+
+		annotation SummarizationSetBy = Automatic
+
+	column netCashProvidedByOperatingActivities
+		dataType: string
+		lineageTag: 6e38f0f4-83c8-4a88-a4bc-e6c254ea7882
+		summarizeBy: none
+		sourceColumn: netCashProvidedByOperatingActivities
+
+		annotation SummarizationSetBy = Automatic
+
+	column investmentsInPropertyPlantAndEquipment
+		dataType: string
+		lineageTag: 15104e02-6342-4aeb-9e7f-c72487990c7f
+		summarizeBy: none
+		sourceColumn: investmentsInPropertyPlantAndEquipment
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisitionsNet
+		dataType: string
+		lineageTag: 390d8c99-543f-4178-a97e-9db6e090d796
+		summarizeBy: none
+		sourceColumn: acquisitionsNet
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchasesOfInvestments
+		dataType: string
+		lineageTag: df2c2760-6ab6-4ce3-8cef-2d8e46afc451
+		summarizeBy: none
+		sourceColumn: purchasesOfInvestments
+
+		annotation SummarizationSetBy = Automatic
+
+	column salesMaturitiesOfInvestments
+		dataType: string
+		lineageTag: ae3ed082-87c2-42d9-b365-599745ce38c2
+		summarizeBy: none
+		sourceColumn: salesMaturitiesOfInvestments
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherInvestingActivities
+		dataType: string
+		lineageTag: 6fc9af6d-0cb1-4931-9aeb-ea7cafbc2000
+		summarizeBy: none
+		sourceColumn: otherInvestingActivities
+
+		annotation SummarizationSetBy = Automatic
+
+	column netCashProvidedByInvestingActivities
+		dataType: string
+		lineageTag: 67859fb3-75f0-46c6-99bf-dafd0a691f1f
+		summarizeBy: none
+		sourceColumn: netCashProvidedByInvestingActivities
+
+		annotation SummarizationSetBy = Automatic
+
+	column netDebtIssuance
+		dataType: string
+		lineageTag: c786aec9-a654-4b0e-84d2-346ab7eaa0c7
+		summarizeBy: none
+		sourceColumn: netDebtIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column longTermNetDebtIssuance
+		dataType: string
+		lineageTag: 8d0e7dba-e54f-4779-bf7f-1255251e2480
+		summarizeBy: none
+		sourceColumn: longTermNetDebtIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column shortTermNetDebtIssuance
+		dataType: string
+		lineageTag: e0f018f1-3ccb-468a-ac5f-c759d471a6fd
+		summarizeBy: none
+		sourceColumn: shortTermNetDebtIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column netStockIssuance
+		dataType: string
+		lineageTag: 2b4d4682-1b78-4777-8a5d-81603bc30158
+		summarizeBy: none
+		sourceColumn: netStockIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column netCommonStockIssuance
+		dataType: string
+		lineageTag: eecc3f7c-7efc-4274-aac2-b8dbe21e30c3
+		summarizeBy: none
+		sourceColumn: netCommonStockIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column commonStockIssuance
+		dataType: string
+		lineageTag: 573688f0-15f1-463d-bebc-2838785c9023
+		summarizeBy: none
+		sourceColumn: commonStockIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column commonStockRepurchased
+		dataType: string
+		lineageTag: 5148fc9e-9c6d-4794-911b-3c7ea9506956
+		summarizeBy: none
+		sourceColumn: commonStockRepurchased
+
+		annotation SummarizationSetBy = Automatic
+
+	column netPreferredStockIssuance
+		dataType: string
+		lineageTag: 9b982ae2-9457-42c8-9d62-a1c38e2112ae
+		summarizeBy: none
+		sourceColumn: netPreferredStockIssuance
+
+		annotation SummarizationSetBy = Automatic
+
+	column netDividendsPaid
+		dataType: string
+		lineageTag: 162d1c18-87c9-48aa-b12c-71278338da24
+		summarizeBy: none
+		sourceColumn: netDividendsPaid
+
+		annotation SummarizationSetBy = Automatic
+
+	column commonDividendsPaid
+		dataType: string
+		lineageTag: 2a8357f4-00b3-45ad-954e-dde8ebcf61b8
+		summarizeBy: none
+		sourceColumn: commonDividendsPaid
+
+		annotation SummarizationSetBy = Automatic
+
+	column preferredDividendsPaid
+		dataType: string
+		lineageTag: ecd35f65-509b-43f9-b966-c0420b3a443b
+		summarizeBy: none
+		sourceColumn: preferredDividendsPaid
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherFinancingActivities
+		dataType: string
+		lineageTag: 8dd924dd-147d-42fd-bf61-a43ba4e78f0c
+		summarizeBy: none
+		sourceColumn: otherFinancingActivities
+
+		annotation SummarizationSetBy = Automatic
+
+	column netCashProvidedByFinancingActivities
+		dataType: string
+		lineageTag: 7af4d4aa-b696-4906-b887-b6057525670e
+		summarizeBy: none
+		sourceColumn: netCashProvidedByFinancingActivities
+
+		annotation SummarizationSetBy = Automatic
+
+	column effectOfForexChangesOnCash
+		dataType: string
+		lineageTag: 03bbc8b2-5491-4f3d-a964-b0bf8aa1b262
+		summarizeBy: none
+		sourceColumn: effectOfForexChangesOnCash
+
+		annotation SummarizationSetBy = Automatic
+
+	column netChangeInCash
+		dataType: string
+		lineageTag: cc4bedcb-1f51-4ee7-aafe-9bd3c382b94d
+		summarizeBy: none
+		sourceColumn: netChangeInCash
+
+		annotation SummarizationSetBy = Automatic
+
+	column cashAtEndOfPeriod
+		dataType: string
+		lineageTag: b1f46b23-013a-42c3-9a39-f798378111eb
+		summarizeBy: none
+		sourceColumn: cashAtEndOfPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column cashAtBeginningOfPeriod
+		dataType: string
+		lineageTag: aa8edbc0-36ec-4c78-b20d-f14c5f615005
+		summarizeBy: none
+		sourceColumn: cashAtBeginningOfPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column operatingCashFlow
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5c089498-8028-4cde-844b-76e9a27f75e4
+		summarizeBy: sum
+		sourceColumn: operatingCashFlow
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column capitalExpenditure
+		dataType: int64
+		formatString: #,0
+		lineageTag: 710eb8db-c952-4f49-a37f-838da672d777
+		summarizeBy: sum
+		sourceColumn: capitalExpenditure
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column freeCashFlow
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0816a2c4-0b27-480d-8f8b-406e90939a40
+		summarizeBy: sum
+		sourceColumn: freeCashFlow
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column incomeTaxesPaid
+		dataType: string
+		lineageTag: 5cfb0e75-ee65-4502-90bf-293c9977d227
+		summarizeBy: none
+		sourceColumn: incomeTaxesPaid
+
+		annotation SummarizationSetBy = Automatic
+
+	column interestPaid
+		dataType: string
+		lineageTag: a622373e-443c-4644-84d2-32981e7134d0
+		summarizeBy: none
+		sourceColumn: interestPaid
+
+		annotation SummarizationSetBy = Automatic
+
+	partition cash_flow_statement = m
+		mode: import
+		source =
+				let
+				    Source = Python.Execute("import requests#(lf)import pandas as pd#(lf)#(lf)API_KEY = 'HMWuBDPutviSunyEq51qZtkNp5n3ZkgU'#(lf)symbol = 'AAPL'#(lf)url = f""https://financialmodelingprep.com/stable/cash-flow-statement?symbol={symbol}&apikey={API_KEY}""#(lf)#(lf)response = requests.get(url)#(lf)#(lf)if response.status_code == 200:#(lf)    data = response.json()#(lf)    cash_flow_statement_Df = pd.DataFrame(data)#(lf)else:#(lf)    cash_flow_statement_Df = pd.DataFrame({'error': ['Request failed']})#(lf)#(lf)print(cash_flow_statement_Df)"),
+				    cash_flow_statement_Df1 = Source{[Name="cash_flow_statement_Df"]}[Value],
+				    #"Changed Type" = Table.TransformColumnTypes(cash_flow_statement_Df1,{{"acceptedDate", type datetime}, {"filingDate", type date}, {"date", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

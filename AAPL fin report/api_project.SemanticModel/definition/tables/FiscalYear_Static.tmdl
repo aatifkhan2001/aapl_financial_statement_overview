@@ -1,0 +1,18 @@
+table FiscalYear_Static
+	lineageTag: e2cf881d-9cbf-4f53-bb92-e2d13d7edf99
+
+	column inc_statement_year
+		formatString: 0
+		lineageTag: 7ca7e409-4ba1-48b9-bc9a-28c4c153786e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: income_statement[inc_statement_year]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FiscalYear_Static = calculated
+		mode: import
+		source = DISTINCT(income_statement[inc_statement_year])
+
+	annotation PBI_Id = 9e42b9adc99e4629b06cfd3b836e7bcc
+

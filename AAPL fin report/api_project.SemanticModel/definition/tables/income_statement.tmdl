@@ -1,0 +1,461 @@
+table income_statement
+	lineageTag: bbdefea7-61ad-4b3e-b51c-f20d55b3c1c1
+
+	measure 'YoY Growth %' = ```
+			
+			VAR SelectedYear =
+			    SELECTEDVALUE(FiscalYear_Static[inc_statement_year])
+			VAR CurrentValue =
+			    CALCULATE(
+			        SUM(income_statement[NetIncome]),
+			        FILTER(
+			            ALL(income_statement),
+			            income_statement[inc_statement_year] = SelectedYear
+			        )
+			    )
+			VAR PreviousValue =
+			    CALCULATE(
+			        SUM(income_statement[NetIncome]),
+			        FILTER(
+			            ALL(income_statement),
+			            YEAR(income_statement[date]) = SelectedYear - 1
+			        )
+			    )
+			VAR YoYChange =
+			    DIVIDE(CurrentValue - PreviousValue, PreviousValue)
+			
+			RETURN
+			IF(
+			    ISBLANK(PreviousValue),
+			    "N/A",
+			    FORMAT(YoYChange, "+0.0%;-0.0%")
+			)
+			
+			```
+		lineageTag: 17636a77-cdf3-473e-80a1-5417ee39d107
+
+	measure NetIncomeRw = CALCULATE(SUM(income_statement[netIncome]), ALL(income_statement))
+		formatString: 0
+		lineageTag: 7817d9e9-32c9-498c-bcc8-4ca3d8e1f142
+
+	measure 'YoY TotalRevenue_YoY%' = ```
+			
+			VAR SelectedYear = SELECTEDVALUE(FiscalYear_Static[inc_statement_year])
+			VAR CurrentValue =
+			    CALCULATE(
+			        SUM(income_statement[revenue]),
+			        FILTER(
+			            ALL(income_statement),
+			            income_statement[inc_statement_year] = SelectedYear
+			        )
+			    )
+			VAR PreviousValue =
+			    CALCULATE(
+			        SUM(income_statement[revenue]),
+			        FILTER(
+			            ALL(income_statement),
+			            income_statement[inc_statement_year] = SelectedYear - 1
+			        )
+			    )
+			VAR YoYChange = DIVIDE(CurrentValue - PreviousValue, PreviousValue)
+			
+			RETURN
+			IF(
+			    ISBLANK(PreviousValue),
+			    BLANK(),
+			    YoYChange
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b55c08af-e1bf-4326-a196-87a8f1193596
+
+	measure TotalRevenue_Color = ```
+			
+			VAR YoYChange = [YoY TotalRevenue_YoY%]
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        YoYChange > 0, "#008000",    // Green
+			        YoYChange < 0, "#FF0000",    // Red
+			        "#000000"                    // Black or neutral
+			    )
+			
+			```
+		lineageTag: 18ca69ad-2d1d-4e0d-8446-c57b2358515a
+
+	column date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: a6ba68e0-dcfe-401f-afdd-bc34fb61019a
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column symbol
+		dataType: string
+		lineageTag: 6aff8b7d-29d0-4e54-b8c5-d772f89ea5fc
+		summarizeBy: none
+		sourceColumn: symbol
+
+		annotation SummarizationSetBy = Automatic
+
+	column reportedCurrency
+		dataType: string
+		lineageTag: b63eea1e-d965-40dc-b1ec-30a78780579c
+		summarizeBy: none
+		sourceColumn: reportedCurrency
+
+		annotation SummarizationSetBy = Automatic
+
+	column cik
+		dataType: string
+		lineageTag: 682aab0b-116f-4483-a02b-0a5bfcc8d419
+		summarizeBy: none
+		sourceColumn: cik
+
+		annotation SummarizationSetBy = Automatic
+
+	column filingDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c40d30a5-d02d-4f8f-90ca-9506ea26d834
+		summarizeBy: none
+		sourceColumn: filingDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column acceptedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f1ce64db-2874-4293-a773-826c3fa71c26
+		summarizeBy: none
+		sourceColumn: acceptedDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column fiscalYear
+		dataType: string
+		lineageTag: 87697c49-0b92-4689-aa0a-b5733433dd61
+		summarizeBy: none
+		sourceColumn: fiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column period
+		dataType: string
+		lineageTag: db9e9419-280b-4678-b601-c43ef0a7105d
+		summarizeBy: none
+		sourceColumn: period
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9d2a2ae0-92a8-45d4-821d-edb20d3201ab
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column costOfRevenue
+		dataType: int64
+		formatString: #,0
+		lineageTag: 64dfd020-bd4e-46ab-a23d-3d559aaa9827
+		summarizeBy: sum
+		sourceColumn: costOfRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column grossProfit
+		dataType: int64
+		formatString: #,0
+		lineageTag: d4df0187-9bb8-4e14-ba80-18862f1d1f85
+		summarizeBy: sum
+		sourceColumn: grossProfit
+
+		annotation SummarizationSetBy = Automatic
+
+	column researchAndDevelopmentExpenses
+		dataType: int64
+		formatString: #,0
+		lineageTag: cce975fa-21ea-4c1e-86fa-26c4280d8f29
+		summarizeBy: sum
+		sourceColumn: researchAndDevelopmentExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column generalAndAdministrativeExpenses
+		dataType: int64
+		formatString: 0
+		lineageTag: ed097641-79f8-45ee-aeb9-bd99fbef8cc9
+		summarizeBy: sum
+		sourceColumn: generalAndAdministrativeExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column sellingAndMarketingExpenses
+		dataType: int64
+		formatString: 0
+		lineageTag: 7c2c39a3-d41f-4327-a0cd-d87973a22a39
+		summarizeBy: sum
+		sourceColumn: sellingAndMarketingExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column sellingGeneralAndAdministrativeExpenses
+		dataType: int64
+		formatString: #,0
+		lineageTag: 792e5f64-6cb2-4b5b-a2e6-2d7a00135658
+		summarizeBy: sum
+		sourceColumn: sellingGeneralAndAdministrativeExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherExpenses
+		dataType: int64
+		formatString: 0
+		lineageTag: 36d3d1c2-fe21-4c1c-bb90-ffcb6d7d6951
+		summarizeBy: sum
+		sourceColumn: otherExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column operatingExpenses
+		dataType: int64
+		formatString: #,0
+		lineageTag: 60d34c9b-b364-4d5f-ba65-19062bc100ca
+		summarizeBy: sum
+		sourceColumn: operatingExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column costAndExpenses
+		dataType: int64
+		formatString: #,0
+		lineageTag: 80e11da7-d312-4d13-904d-2d943c4b995a
+		summarizeBy: sum
+		sourceColumn: costAndExpenses
+
+		annotation SummarizationSetBy = Automatic
+
+	column netInterestIncome
+		dataType: int64
+		formatString: #,0
+		lineageTag: b9b17c46-dabb-4b96-8b71-08ea06b09835
+		summarizeBy: sum
+		sourceColumn: netInterestIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column interestIncome
+		dataType: int64
+		formatString: #,0
+		lineageTag: 14b0b442-b5a5-44b3-bd39-2474856889fd
+		summarizeBy: sum
+		sourceColumn: interestIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column interestExpense
+		dataType: int64
+		formatString: #,0
+		lineageTag: 334ff7e0-45f8-4ff2-adb2-083a0b2b322d
+		summarizeBy: sum
+		sourceColumn: interestExpense
+
+		annotation SummarizationSetBy = Automatic
+
+	column depreciationAndAmortization
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0e651089-8a06-449e-bbed-e3e251d1cf9b
+		summarizeBy: sum
+		sourceColumn: depreciationAndAmortization
+
+		annotation SummarizationSetBy = Automatic
+
+	column ebitda
+		dataType: int64
+		formatString: #,0
+		lineageTag: ea557e41-a479-468c-be9d-89a36c423fd2
+		summarizeBy: sum
+		sourceColumn: ebitda
+
+		annotation SummarizationSetBy = Automatic
+
+	column ebit
+		dataType: int64
+		formatString: #,0
+		lineageTag: 549210b2-34ed-4ad5-ad13-cafa42d0947f
+		summarizeBy: sum
+		sourceColumn: ebit
+
+		annotation SummarizationSetBy = Automatic
+
+	column nonOperatingIncomeExcludingInterest
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0da5f739-781b-4485-822d-caac7cebfa97
+		summarizeBy: sum
+		sourceColumn: nonOperatingIncomeExcludingInterest
+
+		annotation SummarizationSetBy = Automatic
+
+	column operatingIncome
+		dataType: int64
+		formatString: #,0
+		lineageTag: d380b7ec-6e5c-456d-99ad-7015e9a65191
+		summarizeBy: sum
+		sourceColumn: operatingIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalOtherIncomeExpensesNet
+		dataType: int64
+		formatString: #,0
+		lineageTag: 77dec367-9da8-431f-9b96-2315f4b214dc
+		summarizeBy: sum
+		sourceColumn: totalOtherIncomeExpensesNet
+
+		annotation SummarizationSetBy = Automatic
+
+	column incomeBeforeTax
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1868f294-5662-4e59-b2cb-f199d1ec4591
+		summarizeBy: sum
+		sourceColumn: incomeBeforeTax
+
+		annotation SummarizationSetBy = Automatic
+
+	column incomeTaxExpense
+		dataType: int64
+		formatString: #,0
+		lineageTag: 613b85f5-af80-409c-b1ab-1deaf1f0790d
+		summarizeBy: sum
+		sourceColumn: incomeTaxExpense
+
+		annotation SummarizationSetBy = Automatic
+
+	column netIncomeFromContinuingOperations
+		dataType: int64
+		formatString: #,0
+		lineageTag: e3ddf1e3-5443-414d-86fa-cf903c14dfeb
+		summarizeBy: sum
+		sourceColumn: netIncomeFromContinuingOperations
+
+		annotation SummarizationSetBy = Automatic
+
+	column netIncomeFromDiscontinuedOperations
+		dataType: int64
+		formatString: 0
+		lineageTag: cde68557-9a80-4b31-abed-046fd5bb8368
+		summarizeBy: sum
+		sourceColumn: netIncomeFromDiscontinuedOperations
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherAdjustmentsToNetIncome
+		dataType: int64
+		formatString: 0
+		lineageTag: f67cfb86-5e57-4ca2-b402-ecd805d8d449
+		summarizeBy: sum
+		sourceColumn: otherAdjustmentsToNetIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column netIncome
+		dataType: int64
+		formatString: #,0
+		lineageTag: 445f1611-6019-4126-a395-518a890ade84
+		summarizeBy: sum
+		sourceColumn: netIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column netIncomeDeductions
+		dataType: int64
+		formatString: 0
+		lineageTag: c9e278e3-efeb-4934-bc3b-1dfac934dc8a
+		summarizeBy: sum
+		sourceColumn: netIncomeDeductions
+
+		annotation SummarizationSetBy = Automatic
+
+	column bottomLineNetIncome
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5dd6930b-1ba0-44ba-9ef7-9d22d881266b
+		summarizeBy: sum
+		sourceColumn: bottomLineNetIncome
+
+		annotation SummarizationSetBy = Automatic
+
+	column eps
+		dataType: double
+		lineageTag: a6d421ee-bdeb-475d-831b-15473c4091c9
+		summarizeBy: sum
+		sourceColumn: eps
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column epsDiluted
+		dataType: double
+		lineageTag: b89f4357-db56-4d9a-b4bd-8c490b89dae5
+		summarizeBy: sum
+		sourceColumn: epsDiluted
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column weightedAverageShsOut
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3dda8486-5f23-4379-8b42-94601e96cfd9
+		summarizeBy: sum
+		sourceColumn: weightedAverageShsOut
+
+		annotation SummarizationSetBy = Automatic
+
+	column weightedAverageShsOutDil
+		dataType: int64
+		formatString: #,0
+		lineageTag: 34282654-3b42-4334-965e-2cdcb6c8e398
+		summarizeBy: sum
+		sourceColumn: weightedAverageShsOutDil
+
+		annotation SummarizationSetBy = Automatic
+
+	column inc_statement_year = year(income_statement[date])
+		formatString: 0
+		lineageTag: fd6d1b12-fd03-4c13-8da6-a20999d23fe9
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition income_statement = m
+		mode: import
+		source =
+				let
+				    Source = Python.Execute("'''#(lf)import requests#(lf)import pandas as pd#(lf)#(lf)API_KEY = 'HMWuBDPutviSunyEq51qZtkNp5n3ZkgU'#(lf)symbol = 'AAPL'#(lf)url = f'https://financialmodelingprep.com/stable/income-statement?symbol={symbol}&apikey={API_KEY}'#(lf)#(lf)#(lf)#(lf)response = requests.get(url)#(lf)#(lf)if response.status_code == 200:#(lf)    data = response.json()#(lf)    testDf = pd.DataFrame(data)#(lf)    testDf#(lf)else:#(lf)    print(""not working"")#(lf)'''#(lf)#(lf)import requests#(lf)import pandas as pd#(lf)#(lf)API_KEY = 'HMWuBDPutviSunyEq51qZtkNp5n3ZkgU'#(lf)symbol = 'AAPL'#(lf)url = f'https://financialmodelingprep.com/stable/income-statement?symbol={symbol}&apikey={API_KEY}'#(lf)#(lf)response = requests.get(url)#(lf)#(lf)if response.status_code == 200:#(lf)    data = response.json()#(lf)    testDf = pd.DataFrame(data)#(lf)else:#(lf)    testDf = pd.DataFrame({'error': ['Request failed']})#(lf)#(lf)testDf  #(lf)#(lf)"),
+				    testDf1 = Source{[Name="testDf"]}[Value],
+				    #"Changed Type" = Table.TransformColumnTypes(testDf1,{{"eps", type number}, {"epsDiluted", type number}, {"weightedAverageShsOut", Int64.Type}, {"weightedAverageShsOutDil", Int64.Type}, {"bottomLineNetIncome", Int64.Type}, {"netIncomeDeductions", Int64.Type}, {"netIncome", Int64.Type}, {"otherAdjustmentsToNetIncome", Int64.Type}, {"netIncomeFromDiscontinuedOperations", Int64.Type}, {"netIncomeFromContinuingOperations", Int64.Type}, {"incomeTaxExpense", Int64.Type}, {"incomeBeforeTax", Int64.Type}, {"totalOtherIncomeExpensesNet", Int64.Type}, {"operatingIncome", Int64.Type}, {"ebit", Int64.Type}, {"ebitda", Int64.Type}, {"depreciationAndAmortization", Int64.Type}, {"interestExpense", Int64.Type}, {"interestIncome", Int64.Type}, {"netInterestIncome", Int64.Type}, {"costAndExpenses", Int64.Type}, {"operatingExpenses", Int64.Type}, {"sellingGeneralAndAdministrativeExpenses", Int64.Type}, {"otherExpenses", Int64.Type}, {"sellingAndMarketingExpenses", Int64.Type}, {"generalAndAdministrativeExpenses", Int64.Type}, {"researchAndDevelopmentExpenses", Int64.Type}, {"grossProfit", Int64.Type}, {"costOfRevenue", Int64.Type}, {"revenue", Int64.Type}, {"date", type date}, {"filingDate", type date}, {"acceptedDate", type datetime}, {"nonOperatingIncomeExcludingInterest", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,21 @@
+relationship AutoDetected_f3f3f33a-4221-4e3d-b31a-005a0e539cfb
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: balance_sheet.fiscalYear
+	toColumn: income_statement.fiscalYear
+
+relationship AutoDetected_06689518-e95a-435a-a358-2110c684f53e
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: cash_flow_statement.fiscalYear
+	toColumn: income_statement.fiscalYear
+
+relationship AutoDetected_8765c046-612b-4414-9ca4-9b342630bc66
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: cash_flow_statement.date
+	toColumn: balance_sheet.date
+

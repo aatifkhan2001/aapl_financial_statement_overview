@@ -1,0 +1,85 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 612,
+            "y": 0
+          },
+          "nodeIndex": "income_statement",
+          "nodeLineageTag": "bbdefea7-61ad-4b3e-b51c-f20d55b3c1c1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 310,
+            "y": 0
+          },
+          "nodeIndex": "balance_sheet",
+          "nodeLineageTag": "3de99b8e-3e38-4e63-a058-c78150f83c4f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "cash_flow_statement",
+          "nodeLineageTag": "a113aa49-0009-4fba-995c-05335d4a1492",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 896,
+            "y": 50
+          },
+          "nodeIndex": "BalanceCategories",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1180,
+            "y": 50
+          },
+          "nodeIndex": "FiscalYear_Static",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 92.670682730923687,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

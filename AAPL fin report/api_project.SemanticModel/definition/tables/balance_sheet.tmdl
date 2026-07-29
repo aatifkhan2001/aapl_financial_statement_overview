@@ -1,0 +1,787 @@
+table balance_sheet
+	lineageTag: 3de99b8e-3e38-4e63-a058-c78150f83c4f
+
+	measure CR_MIN = 0.5
+		lineageTag: 24c59130-8ca1-46ea-ae82-7c99b1c57688
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CR_MAX = 6.0
+		lineageTag: f6a262b5-01a7-4994-ad85-814c59e6960c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CR_TARGET = 2.0
+		lineageTag: c505fbb5-30ed-4ac8-b3d0-7fd610b15e26
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure debtToEquity = ```
+			
+			DIVIDE(
+			    SUM(balance_sheet[totalDebt]),
+			    SUM(balance_sheet[totalEquity])
+			)
+			
+			
+			```
+		formatString: 0
+		lineageTag: 181b067a-bd56-4bbb-bda7-0ed1ea48913a
+
+		changedProperty = IsHidden
+
+	measure debtToEquityColor = ```
+			
+			VAR Ratio = [debtToEquity]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Ratio > 2.5, "#FF3B30",        // Red
+			    Ratio > 1.5, "#FFCC00",        // Yellow
+			    "#34C759"                     // Green
+			)
+			
+			```
+		lineageTag: 13224971-f230-4091-9aa3-e0b9c642a99e
+
+		changedProperty = IsHidden
+
+	measure 'Balance Sheet Value' = ```
+			
+			VAR col = SELECTEDVALUE(BalanceCategories[DataColumn])
+			RETURN
+			SWITCH(
+			    col,
+			    "totalCurrentAssets", SUM(balance_sheet[totalCurrentAssets]),
+			    "propertyPlantEquipmentNet", SUM(balance_sheet[propertyPlantEquipmentNet]),
+			    "totalAssets", SUM(balance_sheet[totalAssets]),
+			    "totalCurrentLiabilities", SUM(balance_sheet[totalCurrentLiabilities]),
+			    "longTermDebt", SUM(balance_sheet[longTermDebt]),
+			    "totalLiabilities", SUM(balance_sheet[totalLiabilities]),
+			    "totalEquity", SUM(balance_sheet[totalEquity]),
+			    BLANK()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 405840dc-53c7-4324-b96a-1eaaaf64fb4d
+
+		changedProperty = IsHidden
+
+	measure dbtToEq_min = 0.0
+		formatString: 0
+		lineageTag: f4dc5c0d-e7d3-4ffa-a09a-d4b4794e2d1b
+
+	measure dbtToEtq_max = 3.0
+		formatString: 0
+		lineageTag: ea4e872e-8ef4-4e5d-b086-763d0f98af93
+
+	measure dbtToEqt_Target = 1.0
+		formatString: 0
+		lineageTag: 49a69e2c-6f2c-421e-b9be-51c7e1eda522
+
+	column date
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 7fd26745-a831-464a-91b2-e4d390b2d553
+		summarizeBy: none
+		sourceColumn: date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column symbol
+		dataType: string
+		lineageTag: 51d357c2-e44e-4183-95fe-48b3b1f84392
+		summarizeBy: none
+		sourceColumn: symbol
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column reportedCurrency
+		dataType: string
+		lineageTag: 33c43bd8-40cf-4df6-95d2-4822d42deeee
+		summarizeBy: none
+		sourceColumn: reportedCurrency
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cik
+		dataType: string
+		lineageTag: 9e417c6b-592c-42da-834a-d4244c2c1467
+		summarizeBy: none
+		sourceColumn: cik
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column filingDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3d645d61-fe65-4d0a-95b8-d07a269245ed
+		summarizeBy: none
+		sourceColumn: filingDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column acceptedDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a762ba71-598f-48ac-8786-e46d27ea2b48
+		summarizeBy: none
+		sourceColumn: acceptedDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column fiscalYear
+		dataType: string
+		lineageTag: aa217c40-a1d7-45f5-be75-ec8175e306d6
+		summarizeBy: none
+		sourceColumn: fiscalYear
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column period
+		dataType: string
+		lineageTag: bc670a1b-82bd-483d-9bef-ef82a94b9b38
+		summarizeBy: none
+		sourceColumn: period
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cashAndCashEquivalents
+		dataType: int64
+		formatString: 0
+		lineageTag: a9deb691-3d0a-4e18-ab02-b6ac086893d3
+		summarizeBy: sum
+		sourceColumn: cashAndCashEquivalents
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column shortTermInvestments
+		dataType: int64
+		formatString: 0
+		lineageTag: ca88b720-12c4-47c8-83ec-95b691543e1f
+		summarizeBy: sum
+		sourceColumn: shortTermInvestments
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column cashAndShortTermInvestments
+		dataType: int64
+		formatString: 0
+		lineageTag: c7a90bd1-ac81-499e-932b-952c6c291d37
+		summarizeBy: sum
+		sourceColumn: cashAndShortTermInvestments
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column netReceivables
+		dataType: int64
+		formatString: 0
+		lineageTag: de540802-97a1-4547-82e9-6d139c4805bb
+		summarizeBy: sum
+		sourceColumn: netReceivables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column accountsReceivables
+		dataType: int64
+		formatString: 0
+		lineageTag: cf532f12-b3a6-4f8e-b667-00b122915369
+		summarizeBy: sum
+		sourceColumn: accountsReceivables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherReceivables
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d7b3c83-dad5-4ce8-a108-1dc9ce19cb36
+		summarizeBy: sum
+		sourceColumn: otherReceivables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column inventory
+		dataType: int64
+		formatString: 0
+		lineageTag: 244363c3-6d39-4d6a-8642-b2abd5b715b7
+		summarizeBy: sum
+		sourceColumn: inventory
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column prepaids
+		dataType: string
+		lineageTag: f97e2a4e-60d3-46d5-9873-84271b8d80f6
+		summarizeBy: none
+		sourceColumn: prepaids
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherCurrentAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: 4be0a711-cf8f-48a5-8738-c944ffa10805
+		summarizeBy: sum
+		sourceColumn: otherCurrentAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalCurrentAssets
+		dataType: int64
+		formatString: #,0
+		lineageTag: a414b476-afb4-4031-8afb-42cc8ae9f721
+		summarizeBy: sum
+		sourceColumn: totalCurrentAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column propertyPlantEquipmentNet
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a03c35b-5282-4a09-b187-a675f8a38e6a
+		summarizeBy: sum
+		sourceColumn: propertyPlantEquipmentNet
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column goodwill
+		dataType: int64
+		formatString: 0
+		lineageTag: c25c1fa4-38a6-4569-b46d-f5d20aa6117c
+		summarizeBy: sum
+		sourceColumn: goodwill
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column intangibleAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: aa55ed92-5004-40a2-b56e-493795cc9d32
+		summarizeBy: sum
+		sourceColumn: intangibleAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column goodwillAndIntangibleAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: 12a31e41-f0ba-4213-881b-b761a7c1d5c9
+		summarizeBy: sum
+		sourceColumn: goodwillAndIntangibleAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column longTermInvestments
+		dataType: int64
+		formatString: 0
+		lineageTag: 7703a9e0-bc48-4941-a6ee-d5ebd1f4e711
+		summarizeBy: sum
+		sourceColumn: longTermInvestments
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column taxAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: ac0d2349-1af7-455a-a1ba-9199cf2bcee9
+		summarizeBy: sum
+		sourceColumn: taxAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherNonCurrentAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: 9de3eb19-e7fe-4cb8-a8b3-f27776eed5d0
+		summarizeBy: sum
+		sourceColumn: otherNonCurrentAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalNonCurrentAssets
+		dataType: int64
+		formatString: #,0
+		lineageTag: f8dea5b5-3420-44e0-824d-df9fb5c12558
+		summarizeBy: sum
+		sourceColumn: totalNonCurrentAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: efb49c5c-bc2b-4b6f-8b65-aaa91d0f7d60
+		summarizeBy: sum
+		sourceColumn: otherAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalAssets
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ad6d1e3-22f4-49be-8d1e-5fe12da4ca8e
+		summarizeBy: sum
+		sourceColumn: totalAssets
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalPayables
+		dataType: int64
+		formatString: 0
+		lineageTag: bbaa04c1-af11-465f-8319-26b8802fcc62
+		summarizeBy: sum
+		sourceColumn: totalPayables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column accountPayables
+		dataType: int64
+		formatString: #,0
+		lineageTag: b3537f3e-fe17-4625-9603-db86399f49e2
+		summarizeBy: sum
+		sourceColumn: accountPayables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherPayables
+		dataType: int64
+		formatString: 0
+		lineageTag: 93a07b03-8155-44e3-beed-eeaa350eeba4
+		summarizeBy: sum
+		sourceColumn: otherPayables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column accruedExpenses
+		dataType: int64
+		formatString: 0
+		lineageTag: 662d84d3-5014-4cdf-8117-41713ba3a8a6
+		summarizeBy: sum
+		sourceColumn: accruedExpenses
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column shortTermDebt
+		dataType: int64
+		formatString: 0
+		lineageTag: ab121e92-6a91-4de2-a1a0-558bf140ee83
+		summarizeBy: sum
+		sourceColumn: shortTermDebt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column capitalLeaseObligationsCurrent
+		dataType: int64
+		formatString: 0
+		lineageTag: 21c3524d-bd2c-46f0-8adc-edf50f81d86f
+		summarizeBy: sum
+		sourceColumn: capitalLeaseObligationsCurrent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column taxPayables
+		dataType: int64
+		formatString: 0
+		lineageTag: 22dba477-5c00-457e-822c-6bf626db6024
+		summarizeBy: sum
+		sourceColumn: taxPayables
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column deferredRevenue
+		dataType: int64
+		formatString: 0
+		lineageTag: ab69f040-463f-46f5-9888-da9788435854
+		summarizeBy: sum
+		sourceColumn: deferredRevenue
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherCurrentLiabilities
+		dataType: int64
+		formatString: 0
+		lineageTag: f9efc20a-26e7-4403-bae0-ef316df4f8eb
+		summarizeBy: sum
+		sourceColumn: otherCurrentLiabilities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalCurrentLiabilities
+		dataType: int64
+		formatString: #,0
+		lineageTag: 60144dc7-f2aa-4d5f-b47b-5f420d9c8834
+		summarizeBy: sum
+		sourceColumn: totalCurrentLiabilities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column longTermDebt
+		dataType: int64
+		formatString: 0
+		lineageTag: 431bfc6c-148e-4e96-9372-6f722f7ae485
+		summarizeBy: sum
+		sourceColumn: longTermDebt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column capitalLeaseObligationsNonCurrent
+		dataType: int64
+		formatString: 0
+		lineageTag: 6985a255-3033-4e5d-8d88-23a52b7d4f30
+		summarizeBy: sum
+		sourceColumn: capitalLeaseObligationsNonCurrent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column deferredRevenueNonCurrent
+		dataType: int64
+		formatString: 0
+		lineageTag: 28b0b16f-342c-4846-a42b-2f8adf3aba34
+		summarizeBy: sum
+		sourceColumn: deferredRevenueNonCurrent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column deferredTaxLiabilitiesNonCurrent
+		dataType: int64
+		formatString: 0
+		lineageTag: 048bfd5b-9b10-4b3f-9539-4038110d94cc
+		summarizeBy: sum
+		sourceColumn: deferredTaxLiabilitiesNonCurrent
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherNonCurrentLiabilities
+		dataType: int64
+		formatString: 0
+		lineageTag: 76c75c77-8459-4b43-98e6-5bb414bf72b8
+		summarizeBy: sum
+		sourceColumn: otherNonCurrentLiabilities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalNonCurrentLiabilities
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7229ef1f-2677-4426-b871-cbc1a53bda19
+		summarizeBy: sum
+		sourceColumn: totalNonCurrentLiabilities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherLiabilities
+		dataType: int64
+		formatString: 0
+		lineageTag: 34ee6d6b-86ad-476f-9774-c422e1c0c5ae
+		summarizeBy: sum
+		sourceColumn: otherLiabilities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column capitalLeaseObligations
+		dataType: int64
+		formatString: 0
+		lineageTag: bf2642a5-848c-493a-815d-db95ff7d0538
+		summarizeBy: sum
+		sourceColumn: capitalLeaseObligations
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalLiabilities
+		dataType: int64
+		formatString: #,0
+		lineageTag: ccd42c95-eb24-4104-95e6-55c3c47f4d1b
+		summarizeBy: sum
+		sourceColumn: totalLiabilities
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column treasuryStock
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b68bec9-6867-427b-9735-0c5892878df4
+		summarizeBy: sum
+		sourceColumn: treasuryStock
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column preferredStock
+		dataType: int64
+		formatString: 0
+		lineageTag: c7d45fa6-e5e3-4fbf-b3ac-cdcd41e39e0d
+		summarizeBy: sum
+		sourceColumn: preferredStock
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column commonStock
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f6a3ff0-dd15-40e8-bb06-519df9900485
+		summarizeBy: sum
+		sourceColumn: commonStock
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column retainedEarnings
+		dataType: int64
+		formatString: 0
+		lineageTag: 72fdaafd-3d0b-42db-841b-aba8bee0cf8f
+		summarizeBy: sum
+		sourceColumn: retainedEarnings
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column additionalPaidInCapital
+		dataType: int64
+		formatString: 0
+		lineageTag: fbfc0137-c0d4-42bb-a47f-912219e0e833
+		summarizeBy: sum
+		sourceColumn: additionalPaidInCapital
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column accumulatedOtherComprehensiveIncomeLoss
+		dataType: int64
+		formatString: 0
+		lineageTag: 7776fbfb-45c8-4157-883f-7339ba9e431f
+		summarizeBy: sum
+		sourceColumn: accumulatedOtherComprehensiveIncomeLoss
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column otherTotalStockholdersEquity
+		dataType: int64
+		formatString: 0
+		lineageTag: 9048ba5e-9678-4487-bef4-d418ac90b4a1
+		summarizeBy: sum
+		sourceColumn: otherTotalStockholdersEquity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalStockholdersEquity
+		dataType: int64
+		formatString: 0
+		lineageTag: b8e14614-3683-4d08-bcf4-f64de1e4f8e6
+		summarizeBy: sum
+		sourceColumn: totalStockholdersEquity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalEquity
+		dataType: int64
+		formatString: #,0
+		lineageTag: 64f9f3f9-072f-4079-a378-1c48790d65a6
+		summarizeBy: sum
+		sourceColumn: totalEquity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column minorityInterest
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c9347b8-515e-4d90-90c5-d89c00e5cc5f
+		summarizeBy: sum
+		sourceColumn: minorityInterest
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalLiabilitiesAndTotalEquity
+		dataType: int64
+		formatString: #,0
+		lineageTag: 310c1c47-077f-4992-99b5-038f02c97463
+		summarizeBy: sum
+		sourceColumn: totalLiabilitiesAndTotalEquity
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalInvestments
+		dataType: int64
+		formatString: #,0
+		lineageTag: a80a9240-a8bb-4d66-a462-0a16b088896a
+		summarizeBy: sum
+		sourceColumn: totalInvestments
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column totalDebt
+		dataType: int64
+		formatString: #,0
+		lineageTag: ff8b5581-c76d-4578-a88f-c6c7d35e6698
+		summarizeBy: sum
+		sourceColumn: totalDebt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column netDebt
+		dataType: int64
+		formatString: 0
+		lineageTag: 8dd6cc5e-05a5-4b83-93b6-efd81c1ba3d2
+		summarizeBy: sum
+		sourceColumn: netDebt
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column currentRatio = ```
+			balance_sheet[totalCurrentAssets]/balance_sheet[totalCurrentLiabilities] 
+			```
+		lineageTag: dc0ea428-d855-4daf-abe2-96626df398bf
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition balance_sheet = m
+		mode: import
+		source =
+				let
+				    Source = Python.Execute("import requests#(lf)import pandas as pd#(lf)#(lf)API_KEY = 'HMWuBDPutviSunyEq51qZtkNp5n3ZkgU'#(lf)symbol = 'AAPL'#(lf)url = f""https://financialmodelingprep.com/stable/balance-sheet-statement?symbol={symbol}&apikey={API_KEY}""#(lf)#(lf)response = requests.get(url)#(lf)#(lf)if response.status_code == 200:#(lf)    data = response.json()#(lf)    balance_sheet_Df = pd.DataFrame(data)#(lf)else:#(lf)    balance_sheet_Df = pd.DataFrame({'error': ['Request failed']})#(lf)#(lf)balance_sheet_Df"),
+				    balance_sheet_Df1 = Source{[Name="balance_sheet_Df"]}[Value],
+				    #"Changed Type" = Table.TransformColumnTypes(balance_sheet_Df1,{{"totalAssets", Int64.Type}, {"totalPayables", Int64.Type}, {"totalNonCurrentAssets", Int64.Type}, {"otherAssets", Int64.Type}, {"otherNonCurrentAssets", Int64.Type}, {"taxAssets", Int64.Type}, {"longTermInvestments", Int64.Type}, {"goodwillAndIntangibleAssets", Int64.Type}, {"intangibleAssets", Int64.Type}, {"goodwill", Int64.Type}, {"propertyPlantEquipmentNet", Int64.Type}, {"totalCurrentAssets", Int64.Type}, {"otherCurrentAssets", Int64.Type}, {"inventory", Int64.Type}, {"otherReceivables", Int64.Type}, {"accountsReceivables", Int64.Type}, {"netReceivables", Int64.Type}, {"cashAndShortTermInvestments", Int64.Type}, {"shortTermInvestments", Int64.Type}, {"cashAndCashEquivalents", Int64.Type}, {"filingDate", type date}, {"acceptedDate", type datetime}, {"date", type date}, {"netDebt", Int64.Type}, {"totalDebt", Int64.Type}, {"totalInvestments", Int64.Type}, {"totalLiabilitiesAndTotalEquity", Int64.Type}, {"minorityInterest", Int64.Type}, {"totalEquity", Int64.Type}, {"totalStockholdersEquity", Int64.Type}, {"otherTotalStockholdersEquity", Int64.Type}, {"accumulatedOtherComprehensiveIncomeLoss", Int64.Type}, {"additionalPaidInCapital", Int64.Type}, {"retainedEarnings", Int64.Type}, {"commonStock", Int64.Type}, {"preferredStock", Int64.Type}, {"treasuryStock", Int64.Type}, {"totalLiabilities", Int64.Type}, {"capitalLeaseObligations", Int64.Type}, {"otherLiabilities", Int64.Type}, {"totalNonCurrentLiabilities", Int64.Type}, {"otherNonCurrentLiabilities", Int64.Type}, {"deferredTaxLiabilitiesNonCurrent", Int64.Type}, {"deferredRevenueNonCurrent", Int64.Type}, {"capitalLeaseObligationsNonCurrent", Int64.Type}, {"longTermDebt", Int64.Type}, {"totalCurrentLiabilities", Int64.Type}, {"otherCurrentLiabilities", Int64.Type}, {"deferredRevenue", Int64.Type}, {"taxPayables", Int64.Type}, {"capitalLeaseObligationsCurrent", Int64.Type}, {"shortTermDebt", Int64.Type}, {"accruedExpenses", Int64.Type}, {"otherPayables", Int64.Type}, {"accountPayables", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

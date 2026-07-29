@@ -1,0 +1,22 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["income_statement","balance_sheet","cash_flow_statement"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table income_statement
+ref table balance_sheet
+ref table cash_flow_statement
+ref table BalanceCategories
+ref table FiscalYear_Static
+
+ref cultureInfo en-US
+

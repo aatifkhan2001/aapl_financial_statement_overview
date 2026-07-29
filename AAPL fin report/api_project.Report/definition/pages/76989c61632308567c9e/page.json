@@ -1,0 +1,175 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "76989c61632308567c9e",
+  "displayName": "report",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "objects": {
+    "outspace": [
+      {
+        "properties": {
+          "color": {
+            "solid": {
+              "color": {
+                "expr": {
+                  "ThemeDataColor": {
+                    "ColorId": 0,
+                    "Percent": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "7249b21311267cc08b3e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "e5b69db30154c65d3010",
+      "type": "DataFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "c6730e2b212af9553f0c",
+      "type": "DataFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "b0dbe0d4d3bf4a067ed3",
+      "type": "DataFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "e60bd2528ffd2bd3166b",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "4c25ebc49ca5de059b6d",
+      "type": "DataFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "f0163d47d1409e82b533",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "f0163d47d1409e82b533",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "a8dfcc7334da372c625e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "a8dfcc7334da372c625e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "8f25bc641dcf387d64c6",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "4c25ebc49ca5de059b6d",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "1a5a3124b96d14168246",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "e5b69db30154c65d3010",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "c6730e2b212af9553f0c",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "a8dfcc7334da372c625e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "d1ca5bd5cd20b9c907e1",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "cbf8002dd9f675ca7370",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "7249b21311267cc08b3e",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "f0163d47d1409e82b533",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "b0dbe0d4d3bf4a067ed3",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "4c25ebc49ca5de059b6d",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "dadfc41109dbebea8494",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "dadfc41109dbebea8494",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "e60bd2528ffd2bd3166b",
+      "type": "NoFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "8f25bc641dcf387d64c6",
+      "type": "DataFilter"
+    },
+    {
+      "source": "dadfc41109dbebea8494",
+      "target": "46b43e27da182310a01b",
+      "type": "NoFilter"
+    },
+    {
+      "source": "46b43e27da182310a01b",
+      "target": "1a5a3124b96d14168246",
+      "type": "NoFilter"
+    },
+    {
+      "source": "1a5a3124b96d14168246",
+      "target": "46b43e27da182310a01b",
+      "type": "NoFilter"
+    }
+  ]
+}

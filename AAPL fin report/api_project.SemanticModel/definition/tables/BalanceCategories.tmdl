@@ -1,0 +1,50 @@
+table BalanceCategories
+	lineageTag: d1e98b34-bbb0-471d-944f-89db1c74e3c8
+
+	column DisplayName
+		lineageTag: a663c054-051b-461d-b46d-f65f0371282f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DisplayName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DataColumn
+		lineageTag: a28ae32d-98ee-48f2-aa82-8d917c95b19d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DataColumn]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		lineageTag: 7ad08267-af5c-44dc-9fdc-fe0423755e0f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Group]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BalanceCategories = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE (
+				    "DisplayName", STRING,
+				    "DataColumn", STRING,
+				    "Group", STRING,
+				    {
+				        {"Current Assets",          "totalCurrentAssets",         "Assets"},
+				        {"Non-Current Assets",      "propertyPlantEquipmentNet",  "Assets"},
+				        {"Total Assets",            "totalAssets",                "Assets"},
+				        {"Current Liabilities",     "totalCurrentLiabilities",    "Liabilities"},
+				        {"Non-Current Liabilities", "longTermDebt",               "Liabilities"},
+				        {"Total Liabilities",       "totalLiabilities",           "Liabilities"},
+				        {"Equity",                  "totalEquity",                "Equity"}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 9d9a480bf019431aa19a6abd754069be
+
